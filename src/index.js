@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const { PORT } = require("./config/serverConfig");
 const CityRepository = require("./repository/city-repository");
 const ApiRoutes = require("./routes/index");
+const db = require("./models/index");
 
 const setupAndStartServer = () => {
   // create the express server
@@ -18,6 +19,9 @@ const setupAndStartServer = () => {
     // repo.createCity({ name: "Vadodara" });
     // repo.deleteCity(9);
     // repo.updateCity(11, { name: "Mumbai" });
+    if (process.env.SYNC_DB) {
+      db.sequelize.sync({ alter: true });
+    }
   });
 };
 
